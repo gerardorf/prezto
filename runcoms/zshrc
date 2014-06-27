@@ -14,3 +14,55 @@ fi
 # run autojump
 source /usr/share/autojump/autojump.zsh
 
+# add savelast command
+# it will add last executed command to a command log file
+savelast() {
+  fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//' >> ~/.logbook 
+  echo 'Saved commands:'
+  cat ~/.logbook
+}
+alias sl=savelast
+
+# delete all content from logbook
+cleanlogbook(){
+  cat /dev/null > ~/.logbook
+}
+
+# remove last command from logbook
+removelast(){
+  sed -i '$ d' ~/.logbook
+  echo 'Saved commands:'
+  cat ~/.logbook
+} 
+
+# show all commands
+showhistory(){
+  cat ~/.logbook
+}
+
+# say 'In your face!'
+inyourface(){
+  figlet 'In Your Face!!!'
+  echo '
+           ___________    ____ 
+    ______/   \__//   \__/____\
+  _/   \_/  :           //____\\\
+ /|      :  :  ..      /        \
+| |     ::     ::      \        /
+| |     :|     ||     \ \______/
+| |     ||     ||      |\  /  |
+ \|     ||     ||      |   / | \
+  |     ||     ||      |  / /_\ \
+  | ___ || ___ ||      | /  /    \
+   \_-_/  \_-_/ | ____ |/__/      \
+                _\_--_/    \      /
+               /____             /
+              /     \           /
+              \______\_________/
+'
+  espeak 'In your face!'
+}
+
+alias iyf=inyourface
+
+bindkey "^R" history-incremental-search-backward
